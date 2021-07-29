@@ -1,0 +1,110 @@
+.formContainer {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 100px;
+  background: #f2f2f2;
+  display: flex;
+  justify-content: center;
+
+  .form {
+    max-width: 600px;
+    width: 100%;
+    padding: 35px 30px;
+    background: #fff;
+    height: fit-content;
+    box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.1);
+    animation: show 0.5s ease;
+
+    @keyframes show {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    &__title {
+      color: #464646;
+      text-align: center;
+      font-size: 25px;
+      margin-bottom: 30px;
+    }
+
+    &__group {
+      width: 100%;
+      position: relative;
+      height: 45px;
+      border: 1px solid #464646;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      margin-bottom: 15px;
+
+      input {
+        height: 45px;
+        flex: 1;
+        padding: 10px;
+        border: none;
+        outline: none;
+        background: none;
+      }
+
+      &-icon {
+        color: #464646;
+      }
+    }
+
+    &__checkbox {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 15px;
+      label {
+        display: flex;
+        align-items: center;
+      }
+      p {
+        display: inline-block;
+        margin-left: 10px;
+        cursor: pointer;
+      }
+      a {
+        color: #0288d1;
+      }
+    }
+
+    &__btn {
+      width: 100%;
+      height: 45px;
+      background: #0288d1;
+      color: #fff;
+      margin-bottom: 35px;
+      border: none;
+      outline: none;
+      border-radius: 3px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    &__signUp {
+      font-size: 14px;
+      color: #464646;
+      margin-bottom: 15px;
+      text-align: center;
+      a {
+        color: #0288d1;
+      }
+    }
+
+    &__desc {
+      font-size: 14px;
+      color: #464646;
+      text-align: center;
+    }
+  }
+}
