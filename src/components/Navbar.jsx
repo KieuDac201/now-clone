@@ -16,10 +16,12 @@ function Navbar() {
 
     useEffect(() => {
         window.innerWidth <= 992 ? setIsMoble(true) : setIsMoble(false)
-        window.onresize = () => {
-            window.innerWidth <= 992 ? setIsMoble(true) : setIsMoble(false)
-        }
+
     }, [])
+
+    window.onresize = () => {
+        window.innerWidth <= 992 ? setIsMoble(true) : setIsMoble(false)
+    }
 
     console.log(isMobile)
 
