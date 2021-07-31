@@ -36,6 +36,7 @@
     &__groups {
       display: flex;
       gap: 15px;
+      margin-bottom: -8px;
       div {
         flex: 1;
       }
@@ -64,6 +65,13 @@
         outline: none;
         background: none;
         border-radius: 3px;
+      }
+      select {
+        height: 43px;
+        border: none;
+        width: 100%;
+        outline: none;
+        margin-right: 5px;
       }
 
       &-icon {

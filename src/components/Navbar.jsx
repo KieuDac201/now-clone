@@ -24,7 +24,6 @@ function Navbar({ isLogin, userInfo, setIsLogin, setUserInfo }) {
         window.innerWidth <= 992 ? setIsMoble(true) : setIsMoble(false)
     }
 
-    console.log(isMobile)
 
     useEffect(() => {
         if (response !== null) {

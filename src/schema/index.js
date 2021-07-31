@@ -12,7 +12,8 @@ export const schemaSignUp = yup.object().shape({
   firstName: yup.string().required("Vui lòng nhập họ"),
   lastName: yup.string().required("Vui lòng nhập tên"),
   phone: yup.string().required("Vui lòng nhập số điện thoại"),
-  address: yup.string().required("Vui lòng nhập địa chỉ"),
+  district: yup.string().required("Vui lòng chọn quận / huyện"),
+  city: yup.string().required("Vui lòng chọn thành phố"),
   email: yup
     .string()
     .required("Vui lòng nhập email")
@@ -20,7 +21,7 @@ export const schemaSignUp = yup.object().shape({
   password: yup
     .string()
     .required("Vui lòng nhập mật khẩu")
-    .min(6, "Mật khẩu tối thiếu 6 ký tự"),
+    .min(8, "Mật khẩu tối thiếu 6 ký tự"),
   password2: yup
     .string()
     .oneOf([yup.ref("password"), null], "Mật khẩu không khớp")

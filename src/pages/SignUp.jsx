@@ -1,11 +1,12 @@
 import { Lock, MailOutline, Person, Visibility, VisibilityOff } from '@material-ui/icons'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import './Form.scss'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { schemaSignUp } from '../schema'
-
+import useAxios from '../hooks/useAxios'
+import Select from 'react-select';
 
 const options = { resolver: yupResolver(schemaSignUp) }
 
@@ -15,11 +16,36 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false)
   const form = useForm()
   const history = useHistory()
+
   const [showPass, setShowPass] = useState(false)
   const [showPass2, setShowPass2] = useState(false)
 
+  const [dataCitys, setDataCitys] = useState([])
+  const [dataDistricts, setDataDistricts] = useState([])
+  const [dataAddress, setDataAddress] = useState([])
+
+  const [valueSelect, setValueSelect] = useState({
+    one: '',
+    two: ''
+  })
+
+  const fetchAddress = () => {
+    fetch('https://provinces.open-api.vn/api/?depth=2')
+      .then(res => res.json())
+      .then(data => {
+        setDataAddress(data)
+        const citys = data.map(item => ({ label: item.name, value: item.codename }))
+        setDataCitys(citys)
+        setDataDistricts(data[0].districts)
+        console.log(dataCitys)
+
+      })
+      .catch(err => console.log(err))
+  }
+
   const onSubmit = data => {
-    const dataCopy = { email: data.email, password: data.password, FullName: data.firstName + ' ' + data.lastName, phone: data.phone, address: data.address }
+    console.log(data)
+    const dataCopy = { email: data.email, password: data.password, FullName: data.firstName + ' ' + data.lastName, phone: data.phone, address: data.district + ' ' + data.city }
     console.log(dataCopy)
     setLoading(true)
     fetch('https://freeapi.code4func.com/api/v1/user/sign-up', {
@@ -41,6 +67,16 @@ const SignUp = () => {
         console.log(err)
       })
   }
+
+  const handleOnChange = e => {
+    const cityFiltered = dataAddress.filter(i => i.name === e.target.value)
+    console.log(cityFiltered[0].districts)
+    setDataDistricts(cityFiltered[0].districts)
+  };
+
+  useEffect(() => {
+    fetchAddress()
+  }, [])
 
   return (
     <div className="formContainer">
@@ -73,9 +109,29 @@ const SignUp = () => {
         </div>
         <p className="form__error">{errors.phone?.message}</p>
 
-        <div className="form__group">
-          <Person className="form__group-icon" />
-          <input type="text" placeholder="Địa chỉ" {...register("address")} />
+        <div className="form__groups">
+          <div>
+            <div className="form__group">
+              <Person className="form__group-icon" />
+              <select   {...register("city")} placeholder="city" onChange={handleOnChange}>
+                {dataCitys.map(i => {
+                  return <option value={i.label} key={i.codename}>{i.label}</option>
+                })}
+              </select>
+            </div>
+            <p className="form__error">{errors.city?.message}</p>
+          </div>
+          <div>
+            <div className="form__group">
+              <Person className="form__group-icon" />
+              <select name="" id="" {...register("district")}>
+                {dataDistricts.map(i => {
+                  return <option value={i.name} key={i.code}>{i.name}</option>
+                })}
+              </select>
+            </div>
+            <p className="form__error">{errors.district?.message}</p>
+          </div>
         </div>
         <p className="form__error">{errors.address?.message}</p>
 
