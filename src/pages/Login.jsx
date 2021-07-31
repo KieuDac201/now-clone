@@ -1,22 +1,52 @@
 import { TextField } from '@material-ui/core'
-import { Lock, MailOutline } from '@material-ui/icons'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { Lock, MailOutline, Visibility, VisibilityOff } from '@material-ui/icons'
+import React, { useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import './Form.scss'
 import { useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from "yup"
+import { schemaLogin } from '../schema'
 
-const schema = yup.object().shape({
-  email: yup.string().required('Vui lòng nhập email').email('Email không hợp lệ'),
-  password: yup.string().required('Vui lòng nhập password'),
-});
-const options = { resolver: yupResolver(schema) }
+const options = { resolver: yupResolver(schemaLogin) }
 
-const Login = () => {
+const Login = ({ setIsLogin, setUserInfo }) => {
 
+  const [loginError, setLoginError] = useState({ email: '', password: '' })
   const { register, handleSubmit, formState: { errors } } = useForm(options)
-  const onSubmit = data => console.log(data)
+  const history = useHistory()
+  const [showPass, setShowPass] = useState(false)
+
+  const onSubmit = (data) => {
+    setLoginError({ email: '', password: '' })
+    console.log(data)
+    fetch('https://freeapi.code4func.com/api/v1/user/sign-in', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(info => {
+        if (info.code === 500) {
+          setLoginError({ password: '', email: info.message })
+        }
+        if (info.code === 401) {
+          setLoginError({ email: '', password: info.message })
+        }
+        if (info.code === 200) {
+          localStorage.setItem('token', info.data.token)
+          setIsLogin(true)
+          setUserInfo(info.data)
+          history.push("/");
+        }
+        console.log(info)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
   return (
     <div className="formContainer" noValidate autoComplete="off">
@@ -29,13 +59,14 @@ const Login = () => {
           <input type="text" placeholder="Email" name="email" {...register("email")} />
 
         </div>
-        <p className="form__error">{errors.email?.message}</p>
+        <p className="form__error">{errors.email?.message}{loginError.email}</p>
         <div className="form__group">
           <Lock className="form__group-icon" />
-          <input type="password" placeholder="Mật khẩu" name="password" {...register("password")} />
+          <input type={showPass ? 'text' : 'password'} placeholder="Mật khẩu" name="password" {...register("password")} />
 
+          {showPass ? <Visibility className="form__group-icon2" onClick={() => setShowPass(false)} /> : <VisibilityOff className="form__group-icon2" onClick={() => setShowPass(true)} />}
         </div>
-        <p className="form__error">{errors.password?.message}</p>
+        <p className="form__error">{errors.password?.message}{loginError.password}</p>
         <div className="form__checkbox">
           <label htmlFor="Checkbox">
             <input type="checkbox" name="saveInfo" id="Checkbox" />
@@ -55,7 +86,7 @@ const Login = () => {
         </p>
 
       </form>
-    </div>
+    </div >
   )
 }
 

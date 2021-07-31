@@ -1,26 +1,46 @@
-import { Lock, MailOutline, Person } from '@material-ui/icons'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { Lock, MailOutline, Person, Visibility, VisibilityOff } from '@material-ui/icons'
+import React, { useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import './Form.scss'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from "yup"
+import { schemaSignUp } from '../schema'
 
-const schema = yup.object().shape({
-  name: yup.string().required('Vui lòng nhập tên'),
-  email: yup.string().required('Vui lòng nhập email').email('Email không hợp lệ'),
-  password: yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu tối thiếu 6 ký tự'),
-  password2: yup.string().oneOf([yup.ref('password'), null], 'Mật khẩu không khớp').required('Vui lòng nhập xác nhận mật khẩu'),
-});
 
-const options = { resolver: yupResolver(schema) }
+const options = { resolver: yupResolver(schemaSignUp) }
 
 const SignUp = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm(options)
+  const [loading, setLoading] = useState(false)
   const form = useForm()
-  console.log(form)
-  const onSubmit = data => console.log(data)
+  const history = useHistory()
+  const [showPass, setShowPass] = useState(false)
+  const [showPass2, setShowPass2] = useState(false)
+
+  const onSubmit = data => {
+    const dataCopy = { email: data.email, password: data.password, FullName: data.firstName + ' ' + data.lastName, phone: data.phone, address: data.address }
+    console.log(dataCopy)
+    setLoading(true)
+    fetch('https://freeapi.code4func.com/api/v1/user/sign-up', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dataCopy)
+    })
+      .then(res => res.json())
+      .then(info => {
+        console.log(info)
+        setLoading(false)
+        history.push('/login')
+
+      })
+      .catch(err => {
+        setLoading(false)
+        console.log(err)
+      })
+  }
 
   return (
     <div className="formContainer">
@@ -29,11 +49,35 @@ const SignUp = () => {
           Đăng ký
         </h3>
 
+        <div className="form__groups">
+          <div>
+            <div className="form__group">
+              <Person className="form__group-icon" />
+              <input type="text" placeholder="Họ" {...register("firstName")} />
+            </div>
+            <p className="form__error">{errors.firstName?.message}</p>
+          </div>
+          <div>
+            <div className="form__group">
+              <Person className="form__group-icon" />
+              <input type="text" placeholder="Tên" {...register("lastName")} />
+            </div>
+            <p className="form__error">{errors.lastName?.message}</p>
+          </div>
+        </div>
+
+
         <div className="form__group">
           <Person className="form__group-icon" />
-          <input type="text" placeholder="Họ tên" name="name" {...register("name")} />
+          <input type="text" placeholder="Số điện thoại" {...register("phone")} />
         </div>
-        <p className="form__error">{errors.name?.message}</p>
+        <p className="form__error">{errors.phone?.message}</p>
+
+        <div className="form__group">
+          <Person className="form__group-icon" />
+          <input type="text" placeholder="Địa chỉ" {...register("address")} />
+        </div>
+        <p className="form__error">{errors.address?.message}</p>
 
         <div className="form__group">
           <MailOutline className="form__group-icon" />
@@ -43,14 +87,15 @@ const SignUp = () => {
         <p className="form__error">{errors.email?.message}</p>
         <div className="form__group">
           <Lock className="form__group-icon" />
-          <input type="password" placeholder="Mật khẩu" name="password" {...register("password")} />
-
+          <input type={showPass ? 'text' : 'password'} placeholder="Mật khẩu" name="password" {...register("password")} />
+          {showPass ? <Visibility className="form__group-icon2" onClick={() => setShowPass(false)} /> : <VisibilityOff className="form__group-icon2" onClick={() => setShowPass(true)} />}
         </div>
 
         <p className="form__error">{errors.password?.message}</p>
         <div className="form__group">
           <Lock className="form__group-icon" />
-          <input type="password" placeholder="Xác nhận mật khẩu" name="password2" {...register("password2")} />
+          <input type={showPass2 ? 'text' : 'password'} placeholder="Xác nhận mật khẩu" name="password2" {...register("password2")} />
+          {showPass2 ? <Visibility className="form__group-icon2" onClick={() => setShowPass2(false)} /> : <VisibilityOff className="form__group-icon2" onClick={() => setShowPass2(true)} />}
         </div>
         <p className="form__error">{errors.password2?.message}</p>
 
@@ -61,7 +106,7 @@ const SignUp = () => {
         </p>
 
         <button className="form__btn" type="submit">
-          Đăng ký
+          {loading ? 'Loading...' : 'Đăng ký'}
         </button>
 
         <p className="form__desc">

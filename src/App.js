@@ -7,12 +7,42 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
+
+  const checkLogin = () => {
+    const token = localStorage.getItem("token");
+    console.log(token);
+    if (token) {
+      fetch("https://freeapi.code4func.com/api/v1/user/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setIsLogin(true);
+          setUserInfo(data.data);
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  useEffect(() => {
+    checkLogin();
+  }, []);
   return (
     <>
-      <Navbar />
+      <Navbar
+        isLogin={isLogin}
+        userInfo={userInfo}
+        setIsLogin={setIsLogin}
+        setUserInfo={setUserInfo}
+      />
       <Switch>
         <Route path="/login">
-          <Login />
+          <Login setIsLogin={setIsLogin} setUserInfo={setUserInfo} />
         </Route>
         <Route path="/sign-up">
           <SignUp />

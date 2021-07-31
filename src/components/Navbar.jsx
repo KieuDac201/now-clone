@@ -6,8 +6,9 @@ import { useState, useEffect } from 'react';
 import { Button } from '@material-ui/core';
 import './Navbar.scss'
 import { Link } from 'react-router-dom';
+import UserInfo from './UserInfo';
 
-function Navbar() {
+function Navbar({ isLogin, userInfo, setIsLogin, setUserInfo }) {
     const { response, error, loading } = useAxios({ url: '/cate/list', method: 'get' })
     const [cates, setCates] = useState([])
     const [showMenuMore, setShowMenuMore] = useState(false)
@@ -93,7 +94,7 @@ function Navbar() {
                     <Search />
                 </div>
                 <div className="navbar__btn">
-                    <Link to="/login"><Button variant="outlined" color="primary">Đăng nhập</Button></Link>
+                    {isLogin ? <UserInfo userInfo={userInfo} setIsLogin={setIsLogin} setUserInfo={setUserInfo} /> : <Link to="/login"><Button variant="outlined" color="primary">Đăng nhập</Button></Link>}
                 </div>
                 <div className="navbar__menuIcon" onClick={() => setShowMenu(!showMenu)}>
                     {showMenu ? <Close style={{ fontSize: 26 }} /> : <Menu style={{ fontSize: 26 }} />}
