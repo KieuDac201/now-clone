@@ -1,0 +1,55 @@
+.user {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+
+  &__btn {
+    display: flex;
+    align-items: center;
+
+    &-icon {
+      font-size: 30px;
+
+      &Down {
+        font-size: 20px;
+      }
+    }
+
+    &-name {
+      margin: 0 5px;
+    }
+  }
+
+  &__menu {
+    position: absolute;
+    right: 0;
+    top: 130%;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: #fff;
+    animation: fadeIn 0.1s linear;
+    width: max-content;
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    &-item {
+      padding: 5px 10px;
+
+      &.red {
+        color: #dc4036;
+      }
+      &:hover {
+        background: #f5f5f5;
+        transition: 0.2s ease;
+      }
+    }
+  }
+}

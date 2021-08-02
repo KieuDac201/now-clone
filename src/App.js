@@ -5,6 +5,7 @@ import axios from "axios";
 import { Route, Switch } from "react-router-dom";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import Profile from "./pages/Profile";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -46,6 +47,9 @@ function App() {
         </Route>
         <Route path="/sign-up">
           <SignUp />
+        </Route>
+        <Route path="/profile">
+          <Profile userInfo={userInfo} />
         </Route>
       </Switch>
     </>
