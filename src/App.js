@@ -6,6 +6,8 @@ import { Route, Switch } from "react-router-dom";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
+import Home from "./pages/Home";
+import Detail from "./components/Detail";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -42,6 +44,12 @@ function App() {
         setUserInfo={setUserInfo}
       />
       <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Route path="/detail/:id">
+          <Detail />
+        </Route>
         <Route path="/login">
           <Login setIsLogin={setIsLogin} setUserInfo={setUserInfo} />
         </Route>

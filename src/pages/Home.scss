@@ -1,0 +1,115 @@
+.home {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 70px;
+
+  &__container {
+    max-width: 1180px;
+    padding: 0 20px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    text-align: center;
+    font-size: 35px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    margin-top: 30px;
+  }
+
+  &__products {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 20px;
+
+    @media screen and (max-width: 1100px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    @media screen and (max-width: 900px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media screen and (max-width: 700px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media screen and (max-width: 450px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+
+  &__product {
+    height: 230px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+
+    &:hover {
+      cursor: pointer;
+      transition: box-shadow 0.25s;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2),
+        0 4px 15px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    &-img {
+      height: 150px;
+      overflow: hidden;
+      position: relative;
+
+      img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &-name {
+      font-weight: 700;
+      padding: 10px;
+      padding-top: 5px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    &-price {
+      color: #dc4036;
+      padding: 0 10px;
+    }
+  }
+
+  &__pagination {
+    display: flex;
+    margin: 30px 0;
+    justify-content: space-between;
+
+    &-loadmore {
+      border: 1px solid #dc4036;
+      border-radius: 3px;
+      color: #dc4036;
+      height: 40px;
+      padding: 0 20px;
+      background-color: transparent;
+      outline: none;
+      text-transform: uppercase;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    &-gotop {
+      width: 40px;
+      height: 40px;
+      margin: 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #dc4036;
+      border-radius: 3px;
+      color: #fff;
+      outline: none;
+      border: none;
+      cursor: pointer;
+    }
+  }
+}
