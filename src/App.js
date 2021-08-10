@@ -8,6 +8,7 @@ import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 import Detail from "./components/Detail";
+import Footer from "./components/Footer";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -60,6 +61,7 @@ function App() {
           <Profile userInfo={userInfo} />
         </Route>
       </Switch>
+      <Footer />
     </>
   );
 }

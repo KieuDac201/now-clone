@@ -49,10 +49,11 @@ const Detail = () => {
             <div className="detail__content-price">
               {formatPrice}
             </div>
+            <Button variant="contained" color="secondary">Dat hang</Button>
             <p className="detail__content-desc">
               {detailProduct.description}
             </p>
-            <Button variant="contained" color="secondary">Dat hang</Button>
+
           </div>
 
         </>
