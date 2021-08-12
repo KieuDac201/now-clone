@@ -1,18 +1,19 @@
 import React from "react";
 import logo from "../images/logo.png";
-import { Search, MoreHoriz, Menu, Close } from "@material-ui/icons";
+import { MoreHoriz, Menu, Close, SearchOutlined } from "@material-ui/icons";
 import { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import "./Navbar.scss";
 import { Link } from "react-router-dom";
 import User from "./User";
+import Search from "../pages/Search";
 
 function Navbar({ isLogin, userInfo, setIsLogin, setUserInfo }) {
 
-    const [cates, setCates] = useState([]);
     const [showMenuMore, setShowMenuMore] = useState(false);
     const [isMobile, setIsMoble] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
+    const [showSearch, setShowSearch] = useState(false)
 
     useEffect(() => {
         window.innerWidth <= 992 ? setIsMoble(true) : setIsMoble(false);
@@ -83,9 +84,12 @@ function Navbar({ isLogin, userInfo, setIsLogin, setUserInfo }) {
                         </div>
                     </ul>
                 )}
-                <div className="navbar__search">
-                    <Search />
+                <div className="navbar__search" onClick={() => setShowSearch(true)}>
+                    <SearchOutlined />
                 </div>
+                {
+                    showSearch && <Search setShowSearch={setShowSearch} />
+                }
                 <div className="navbar__btn">
                     {isLogin ? (
                         <User

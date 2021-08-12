@@ -4,6 +4,7 @@ import './Home.scss'
 import { setProduct } from '../features/product/product'
 import { ArrowUpward } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid';
 
 const Home = () => {
 
@@ -12,15 +13,15 @@ const Home = () => {
   const [page, setPage] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
   const [loading, setLoading] = useState(false)
+  console.log('re-render', products)
 
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true)
       const res = await fetch(`https://freeapi.code4func.com/api/v1/food/list/${page}/30`)
       const data = await res.json()
-      console.log('da')
       console.log(data.data)
-      dispatch(setProduct(data.data))
+      dispatch(setProduct([...products, ...data.data]))
       setLoading(false)
     }
     fetchProduct()
@@ -45,7 +46,7 @@ const Home = () => {
           {
             products && products.map(product => {
               const formatPrice = product.price.toLocaleString('vi', { style: 'currency', currency: 'VND' });
-              return <div className="home__product" key={product.foodId}>
+              return <div className="home__product" key={product.foodId + uuidv4()}>
                 <Link to={`/detail/${product.foodId}`}>
                   <div className="home__product-img">
                     <img src={product.images[0].imageUrl} alt={product.foodName} />

@@ -112,6 +112,7 @@ header {
   &__search {
     cursor: pointer;
     margin: 0 15px;
+    padding: 4px;
 
     @media (max-width: 992px) {
       margin-left: auto;
@@ -125,7 +126,7 @@ header {
       display: block;
       margin-left: 15px;
       cursor: pointer;
-      z-index: 999;
+      z-index: 99;
     }
   }
 }

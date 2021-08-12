@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './User.scss'
 
-const User = ({ userInfo: { email }, setUserInfo, setIsLogin }) => {
+const User = ({ userInfo, setUserInfo, setIsLogin }) => {
   const [showMenu, setShowMenu] = useState(false)
 
   const hanleLogout = () => {
@@ -16,7 +16,7 @@ const User = ({ userInfo: { email }, setUserInfo, setIsLogin }) => {
   const toggleMenu = () => {
     setShowMenu(!showMenu)
   }
-  let emailSliced = email?.slice(0, email.indexOf('@'))
+  let emailSliced = userInfo?.email?.slice(0, userInfo?.email.indexOf('@'))
   return (
     <div className="user" >
       <div className="user__btn" onClick={toggleMenu} >

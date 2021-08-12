@@ -1,6 +1,6 @@
 {
   "name": "now-clone",
-  "homepage":"https://KieuDac201.github.io/now-clone/", 
+  "homepage": "https://KieuDac201.github.io/now-clone/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -22,6 +22,7 @@
     "react-select": "^4.3.1",
     "react-simple-image-slider": "^2.1.2",
     "react-slick": "^0.28.1",
+    "uuid": "^8.3.2",
     "web-vitals": "^1.1.2",
     "yup": "^0.32.9"
   },

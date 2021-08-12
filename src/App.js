@@ -25,7 +25,10 @@ function App() {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          if (data.message == "Token is expired") {
+            localStorage.removeItem("token");
+            return;
+          }
           setIsLogin(true);
           setUserInfo(data.data);
         })
