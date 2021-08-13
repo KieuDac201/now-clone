@@ -21,7 +21,6 @@ const SignUp = () => {
     formState: { errors },
   } = useForm(options);
   const [loading, setLoading] = useState(false);
-  const form = useForm();
   const history = useHistory();
 
   const [showPass, setShowPass] = useState(false);

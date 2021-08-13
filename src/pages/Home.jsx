@@ -13,14 +13,12 @@ const Home = () => {
   const [page, setPage] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
   const [loading, setLoading] = useState(false)
-  console.log('re-render', products)
 
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true)
       const res = await fetch(`https://freeapi.code4func.com/api/v1/food/list/${page}/30`)
       const data = await res.json()
-      console.log(data.data)
       dispatch(setProduct([...products, ...data.data]))
       setLoading(false)
     }

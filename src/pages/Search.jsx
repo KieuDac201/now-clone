@@ -1,14 +1,15 @@
 import { Close } from '@material-ui/icons'
 import React from 'react'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { setProduct } from '../features/product/product'
 import './Search.scss'
 
 const Search = ({ setShowSearch }) => {
+  const history = useHistory()
   const dispatch = useDispatch()
   const [search, setSearch] = useState('')
-  const products = useSelector(state => state.products)
 
   const handleSubmit = () => {
     const fetchProduct = async () => {
@@ -22,11 +23,12 @@ const Search = ({ setShowSearch }) => {
 
       })
       const data = await res.json()
-      console.log(data.data)
       dispatch(setProduct(data.data))
     }
     fetchProduct()
     setShowSearch(false)
+    history.push('/')
+
   }
   return (
     <div className="search">

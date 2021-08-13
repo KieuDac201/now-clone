@@ -1,4 +1,3 @@
-import { TextField } from "@material-ui/core";
 import {
   Lock,
   MailOutline,
@@ -11,7 +10,6 @@ import "./Form.scss";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaLogin } from "../schema";
-import useFetch from "../hooks/useFetch";
 
 const options = { resolver: yupResolver(schemaLogin) };
 

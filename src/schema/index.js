@@ -7,6 +7,11 @@ export const schemaLogin = yup.object().shape({
     .email("Email không hợp lệ"),
   password: yup.string().required("Vui lòng nhập password"),
 });
+export const schemaUpdate = yup.object().shape({
+  fullName: yup.string().required("Vui lòng nhập tên đầy đủ"),
+  phone: yup.string().required("Vui lòng nhập số điện thoại "),
+  address: yup.string().required("Vui lòng nhập địa chỉ"),
+});
 
 export const schemaSignUp = yup.object().shape({
   firstName: yup.string().required("Vui lòng nhập họ"),

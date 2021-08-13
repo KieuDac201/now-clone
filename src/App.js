@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import axios from "axios";
 import { Route, Switch } from "react-router-dom";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -25,7 +24,7 @@ function App() {
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data.message == "Token is expired") {
+          if (data.message === "Token is expired") {
             localStorage.removeItem("token");
             return;
           }
