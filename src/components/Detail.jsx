@@ -5,7 +5,9 @@ import SimpleImageSlider from "react-simple-image-slider";
 import { Button } from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCart } from '../features/cart/cart';
+import { setCart, addToCart } from '../features/cart/cart';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 
@@ -47,9 +49,20 @@ const Detail = ({ setIsLogin, setUserInfo }) => {
             setUserInfo({})
             history.push('/login')
           }
+          console.log(products)
           const productAdded = products.find(product => product.foodId === foodId)
-          console.log(productAdded)
-          dispatch(setCart([productAdded]))
+          console.log(productAdded, 'dac')
+          dispatch(addToCart(productAdded))
+          toast.success('Thêm vào giỏ hàng thành công!', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+          });
+
         })
         .catch((err) => {
           console.log(err)
@@ -64,39 +77,42 @@ const Detail = ({ setIsLogin, setUserInfo }) => {
   const formatPrice = detailProduct && detailProduct.price.toLocaleString('vi', { style: 'currency', currency: 'VND' });
 
   return (
-    <div className="detail">
-      {
+    <>
+      <ToastContainer />
+      <div className="detail">
+        {
 
-        detailProduct && <>
-          {
-            detailProduct.images.forEach((img) => {
-              images.push({ url: img.imageUrl })
-            })
-          }
-          <div className="detail__img">
-            <SimpleImageSlider
-              width={400}
-              height={300}
-              images={images}
-              showBullets={true}
-              showNavs={true}
-            />
-          </div>
-          <div className="detail__content">
-            <div className="detail__content-name">{detailProduct.foodName}</div>
-            <div className="detail__content-price">
-              {formatPrice}
+          detailProduct && <>
+            {
+              detailProduct.images.forEach((img) => {
+                images.push({ url: img.imageUrl })
+              })
+            }
+            <div className="detail__img">
+              <SimpleImageSlider
+                width={400}
+                height={300}
+                images={images}
+                showBullets={true}
+                showNavs={true}
+              />
             </div>
-            <Button variant="contained" color="secondary" startIcon={<AddShoppingCart />} onClick={() => handleAddToCart(param.id)}>Đặt hàng</Button>
-            <p className="detail__content-desc">
-              {detailProduct.description}
-            </p>
+            <div className="detail__content">
+              <div className="detail__content-name">{detailProduct.foodName}</div>
+              <div className="detail__content-price">
+                {formatPrice}
+              </div>
+              <Button variant="contained" color="secondary" startIcon={<AddShoppingCart />} onClick={() => handleAddToCart(param.id)}>Đặt hàng</Button>
+              <p className="detail__content-desc">
+                {detailProduct.description}
+              </p>
 
-          </div>
+            </div>
 
-        </>
-      }
-    </div>
+          </>
+        }
+      </div>
+    </>
   )
 }
 

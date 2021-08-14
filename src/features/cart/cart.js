@@ -9,23 +9,23 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     setCart: (state, action) => {
-      state.carts = [...state.carts, ...action.payload];
+      state.carts = [...action.payload];
     },
     addToCart: (state, action) => {
-      state.carts.forEach((cart, index) => {
-        if (cart.foodId === action.payload[0].foodId) {
-          state.carts[index] = {
-            ...state.carts[index],
-            quantity: state.carts[index].quantity + 1,
-          };
-          return;
+      let temp = false;
+      state.carts.forEach((cart, i) => {
+        if (cart?.foodId === action.payload?.foodId) {
+          state.carts[i] = { ...cart, quantity: cart.quantity + 1 };
+          temp = true;
         }
       });
-      state.carts = [...state.carts, ...action.payload];
+      if (!temp) {
+        state.carts.push({ ...action.payload, quantity: 1 });
+      }
     },
     removeCart: (state, action) => {},
   },
 });
 
-export const { setCart } = cartSlice.actions;
+export const { addToCart, setCart } = cartSlice.actions;
 export default cartSlice.reducer;

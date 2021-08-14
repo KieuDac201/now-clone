@@ -2,17 +2,22 @@ import { Button } from '@material-ui/core'
 import { DeleteForever } from '@material-ui/icons'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import './Cart.scss'
 
-const Cart = ({ carts }) => {
+const Cart = ({ carts, isLogin }) => {
 
+  const history = useHistory()
   const totalPriceCart = carts.reduce((a, b) => {
     return a + b?.price * b?.quantity
   }, 0)
-
+  if (!isLogin) {
+    history.push('/')
+  }
   const removeProduct = (foodId) => {
     const token = localStorage.getItem("token");
     console.log(foodId);
+    console.log(token)
     if (token) {
       fetch("https://freeapi.code4func.com/api/v1/order/delete", {
         method: 'DELETE',

@@ -23,6 +23,7 @@
     "react-select": "^4.3.1",
     "react-simple-image-slider": "^2.1.2",
     "react-slick": "^0.28.1",
+    "react-toastify": "^7.0.4",
     "uuid": "^8.3.2",
     "web-vitals": "^1.1.2",
     "yup": "^0.32.9"

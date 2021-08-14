@@ -72,13 +72,16 @@ function Navbar({ isLogin, userInfo, setIsLogin, setUserInfo }) {
                         <Close style={{ fontSize: 26 }} className="navbar__menu-close" onClick={() => setShowMenu(false)} />
                     </ul>
                 )}
-                <Link to="/cart" className="navbar__cart">
-                    <ShoppingCart className="navbar__cart-icon" />
-                    <div className="navbar__cart-bagde">{cartLength}</div>
-                </Link>
                 <div className="navbar__search" onClick={() => setShowSearch(true)}>
                     <SearchOutlined />
                 </div>
+                {
+                    isLogin && <Link to="/cart" className="navbar__cart">
+                        <ShoppingCart className="navbar__cart-icon" />
+                        <div className="navbar__cart-bagde">{cartLength}</div>
+                    </Link>
+                }
+
                 {
                     showSearch && <Search setShowSearch={setShowSearch} />
                 }

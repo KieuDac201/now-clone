@@ -7,10 +7,10 @@ const User = ({ userInfo, setUserInfo, setIsLogin }) => {
   const [showMenu, setShowMenu] = useState(false)
 
   const hanleLogout = () => {
+    localStorage.removeItem('token')
     setUserInfo({})
     setIsLogin(false)
     setShowMenu(false)
-    localStorage.removeItem('token')
   }
 
   const toggleMenu = () => {

@@ -10,8 +10,8 @@ import Detail from "./components/Detail";
 import Footer from "./components/Footer";
 import Cart from "./components/Cart";
 import { useDispatch, useSelector } from "react-redux";
-import cart from "./features/cart/cart";
 import { setCart } from "./features/cart/cart";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -21,7 +21,6 @@ function App() {
 
   const checkLogin = () => {
     const token = localStorage.getItem("token");
-    console.log(token);
     if (token) {
       fetch("https://freeapi.code4func.com/api/v1/user/profile", {
         headers: {
@@ -43,7 +42,6 @@ function App() {
 
   const fetchCart = () => {
     const token = localStorage.getItem("token");
-    console.log(token);
     if (token) {
       fetch("https://freeapi.code4func.com/api/v1/order/shopping-cart", {
         headers: {
@@ -56,17 +54,19 @@ function App() {
             localStorage.removeItem("token");
             return;
           }
-          console.log(data);
           dispatch(setCart(data.data.items));
         })
         .catch((err) => console.log(err));
+    } else {
     }
   };
-  console.log(carts);
   useEffect(() => {
     checkLogin();
-    fetchCart();
   }, []);
+
+  useEffect(() => {
+    fetchCart();
+  }, [isLogin]);
   return (
     <>
       <Navbar
@@ -92,7 +92,7 @@ function App() {
           <Profile userInfo={userInfo} />
         </Route>
         <Route path="/cart">
-          <Cart carts={carts} />
+          <Cart carts={carts} isLogin={isLogin} />
         </Route>
       </Switch>
       <Footer />

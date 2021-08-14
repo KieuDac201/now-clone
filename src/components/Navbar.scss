@@ -13,7 +13,6 @@ header {
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   height: 70px;
 
   @media (max-width: 992px) {
@@ -73,9 +72,9 @@ header {
   }
 
   &__cart {
-    margin-left: auto;
     position: relative;
     cursor: pointer;
+    margin-right: 16px;
 
     &-bagde {
       position: absolute;
@@ -99,6 +98,7 @@ header {
     cursor: pointer;
     margin: 0 15px;
     padding: 4px;
+    margin-left: auto;
 
     @media (max-width: 992px) {
       margin-left: auto;
