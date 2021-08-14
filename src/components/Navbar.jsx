@@ -1,23 +1,24 @@
 import React from "react";
 import logo from "../images/logo.png";
-import { Menu, Close, SearchOutlined } from "@material-ui/icons";
+import { Menu, Close, SearchOutlined, ShoppingCart } from "@material-ui/icons";
 import { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import "./Navbar.scss";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import User from "./User";
 import Search from "../pages/Search";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setProduct } from '../features/product/product'
+import Cart from "./Cart";
 
 function Navbar({ isLogin, userInfo, setIsLogin, setUserInfo }) {
 
-    const [showMenuMore, setShowMenuMore] = useState(false);
-    const [isMobile, setIsMoble] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
     const [showSearch, setShowSearch] = useState(false)
     const [cates, setCates] = useState([])
     const dispatch = useDispatch()
+    const history = useHistory()
+    const cartLength = useSelector((state) => state.cart.carts.length);
 
     useEffect(() => {
         const fetchCate = async () => {
@@ -27,12 +28,16 @@ function Navbar({ isLogin, userInfo, setIsLogin, setUserInfo }) {
         }
         fetchCate()
 
-        window.innerWidth <= 992 ? setIsMoble(true) : setIsMoble(false);
     }, []);
+    useEffect(() => {
+        const fetchCate = async () => {
+            const res = await fetch(`https://freeapi.code4func.com/api/v1/cate/list`)
+            const data = await res.json()
+            setCates(data.data)
+        }
+        fetchCate()
 
-    window.onresize = () => {
-        window.innerWidth <= 992 ? setIsMoble(true) : setIsMoble(false);
-    };
+    }, []);
 
     const handleClick = (cateId) => {
         console.log(cateId)
@@ -43,6 +48,7 @@ function Navbar({ isLogin, userInfo, setIsLogin, setUserInfo }) {
             if (data.data) {
                 dispatch(setProduct(data.data))
             }
+            history.push('/')
         }
         fetchProduct()
         setShowMenu(false)
@@ -66,6 +72,10 @@ function Navbar({ isLogin, userInfo, setIsLogin, setUserInfo }) {
                         <Close style={{ fontSize: 26 }} className="navbar__menu-close" onClick={() => setShowMenu(false)} />
                     </ul>
                 )}
+                <Link to="/cart" className="navbar__cart">
+                    <ShoppingCart className="navbar__cart-icon" />
+                    <div className="navbar__cart-bagde">{cartLength}</div>
+                </Link>
                 <div className="navbar__search" onClick={() => setShowSearch(true)}>
                     <SearchOutlined />
                 </div>

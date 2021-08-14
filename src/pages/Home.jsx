@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 const Home = () => {
 
   const dispatch = useDispatch()
-  const products = useSelector(state => state.products)
+  const products = useSelector(state => state.product.products)
   const [page, setPage] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
   const [loading, setLoading] = useState(false)

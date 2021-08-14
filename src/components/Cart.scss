@@ -1,0 +1,121 @@
+.cart {
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 100px;
+  padding: 0 20px;
+
+  &__title {
+    font-size: 30px;
+    margin-bottom: 16px;
+  }
+
+  &__container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    padding-bottom: 50px;
+  }
+  &__main {
+    grid-column: 1/ 4;
+
+    &-top {
+      display: flex;
+      gap: 16px;
+      p {
+        font-weight: 700;
+        flex: 1;
+        text-align: center;
+        &:first-child {
+          flex: 3;
+        }
+        &:last-child {
+          display: flex;
+          justify-content: flex-end;
+        }
+      }
+    }
+    &-list {
+      margin-top: 24px;
+    }
+    &-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+      div {
+        flex: 1;
+        text-align: center;
+        &:first-child {
+          flex: 3;
+        }
+      }
+    }
+
+    &-img {
+      display: flex;
+      align-items: center;
+      img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        margin-right: 10px;
+      }
+    }
+    &-del {
+      display: flex;
+      justify-content: flex-end;
+      color: rgb(124, 124, 124);
+      cursor: pointer;
+    }
+    &-price,
+    &-totalPrice {
+      color: #dc4036;
+    }
+    &-quanity {
+      display: flex;
+      align-items: center;
+      button {
+        width: 35px;
+        height: 35px;
+        border: 1px solid #ccc;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        cursor: pointer;
+      }
+      div {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+  &__right {
+    border: 1px solid #ccc;
+    padding: 12px;
+    div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      p:last-child {
+        color: #dc4036;
+      }
+    }
+    &-totalCart {
+      margin-top: 30px;
+      p {
+        font-weight: 700;
+      }
+    }
+    &-btn {
+      margin-left: auto;
+      margin-top: 10px;
+      justify-content: flex-end !important;
+    }
+  }
+}

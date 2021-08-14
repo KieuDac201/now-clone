@@ -8,10 +8,16 @@ import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 import Detail from "./components/Detail";
 import Footer from "./components/Footer";
+import Cart from "./components/Cart";
+import { useDispatch, useSelector } from "react-redux";
+import cart from "./features/cart/cart";
+import { setCart } from "./features/cart/cart";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState({});
+  const dispatch = useDispatch();
+  const carts = useSelector((state) => state.cart.carts);
 
   const checkLogin = () => {
     const token = localStorage.getItem("token");
@@ -35,8 +41,31 @@ function App() {
     }
   };
 
+  const fetchCart = () => {
+    const token = localStorage.getItem("token");
+    console.log(token);
+    if (token) {
+      fetch("https://freeapi.code4func.com/api/v1/order/shopping-cart", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.message === "Token is expired") {
+            localStorage.removeItem("token");
+            return;
+          }
+          console.log(data);
+          dispatch(setCart(data.data.items));
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+  console.log(carts);
   useEffect(() => {
     checkLogin();
+    fetchCart();
   }, []);
   return (
     <>
@@ -51,7 +80,7 @@ function App() {
           <Home />
         </Route>
         <Route path="/detail/:id">
-          <Detail />
+          <Detail setIsLogin={setIsLogin} setUserInfo={setUserInfo} />
         </Route>
         <Route path="/login">
           <Login setIsLogin={setIsLogin} setUserInfo={setUserInfo} />
@@ -61,6 +90,9 @@ function App() {
         </Route>
         <Route path="/profile">
           <Profile userInfo={userInfo} />
+        </Route>
+        <Route path="/cart">
+          <Cart carts={carts} />
         </Route>
       </Switch>
       <Footer />

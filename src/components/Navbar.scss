@@ -72,11 +72,33 @@ header {
     }
   }
 
+  &__cart {
+    margin-left: auto;
+    position: relative;
+    cursor: pointer;
+
+    &-bagde {
+      position: absolute;
+      top: -40%;
+      right: -30%;
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      background: #f50057;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 999px;
+    }
+  }
+
   &__search {
     cursor: pointer;
     margin: 0 15px;
     padding: 4px;
-    margin-left: auto;
 
     @media (max-width: 992px) {
       margin-left: auto;

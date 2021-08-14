@@ -1,26 +1,64 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import './Detail.scss'
 import SimpleImageSlider from "react-simple-image-slider";
 import { Button } from '@material-ui/core';
+import { AddShoppingCart } from '@material-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCart } from '../features/cart/cart';
 
 
 
-const Detail = () => {
+const Detail = ({ setIsLogin, setUserInfo }) => {
 
   const param = useParams()
+  const history = useHistory()
+  const dispatch = useDispatch()
   const [detailProduct, setDetailProduct] = useState(null)
+  const products = useSelector(state => state.product.products)
 
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await fetch(`https://freeapi.code4func.com/api/v1/food/detail/${param.id}`)
       const data = await res.json()
-      console.log('da')
-      console.log(data.data)
       setDetailProduct(data.data)
     }
     fetchProduct()
   }, [param.id])
+
+  const handleAddToCart = (foodId) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetch(`https://freeapi.code4func.com/api/v1/order/add-to-cart`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ foodId: foodId })
+      })
+        .then((res) => {
+          return res.json()
+        })
+        .then(data => {
+          if (data.message === 'Token is expired') {
+            localStorage.removeItem("token");
+            setIsLogin(false)
+            setUserInfo({})
+            history.push('/login')
+          }
+          const productAdded = products.find(product => product.foodId === foodId)
+          console.log(productAdded)
+          dispatch(setCart([productAdded]))
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } else {
+      history.push('/login')
+    }
+
+  }
 
   const images = [];
   const formatPrice = detailProduct && detailProduct.price.toLocaleString('vi', { style: 'currency', currency: 'VND' });
@@ -49,7 +87,7 @@ const Detail = () => {
             <div className="detail__content-price">
               {formatPrice}
             </div>
-            <Button variant="contained" color="secondary">Dat hang</Button>
+            <Button variant="contained" color="secondary" startIcon={<AddShoppingCart />} onClick={() => handleAddToCart(param.id)}>Đặt hàng</Button>
             <p className="detail__content-desc">
               {detailProduct.description}
             </p>
